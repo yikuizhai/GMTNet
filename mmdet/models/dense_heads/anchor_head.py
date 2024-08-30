@@ -302,8 +302,7 @@ class AnchorHead(BaseDenseHead):
             bbox_targets = unmap(bbox_targets, num_total_anchors, inside_flags)
             bbox_weights = unmap(bbox_weights, num_total_anchors, inside_flags)
 
-        return (labels, label_weights, bbox_targets, bbox_weights, pos_inds,
-                neg_inds, sampling_result)
+        return (labels, label_weights, bbox_targets, bbox_weights, pos_inds, neg_inds, sampling_result)
 
     def get_targets(self,
                     anchor_list: List[List[Tensor]],

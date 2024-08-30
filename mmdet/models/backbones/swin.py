@@ -523,6 +523,7 @@ class SwinTransformer(BaseModule):
     """
 
     def __init__(self,
+                 _delete_=True,
                  pretrain_img_size=224,
                  in_channels=3,
                  embed_dims=96,

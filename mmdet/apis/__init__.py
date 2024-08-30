@@ -7,3 +7,8 @@ __all__ = [
     'init_detector', 'async_inference_detector', 'inference_detector',
     'DetInferencer', 'inference_mot', 'init_track_model'
 ]
+
+
+def show_result_pyplot():
+    return None
+

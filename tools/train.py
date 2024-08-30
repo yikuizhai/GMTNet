@@ -2,11 +2,12 @@
 import argparse
 import os
 import os.path as osp
-
+from random import random
+import numpy as np
 from mmengine.config import Config, DictAction
 from mmengine.registry import RUNNERS
 from mmengine.runner import Runner
-
+from safetensors import torch
 from mmdet.utils import setup_cache_size_limit_of_dynamo
 
 
@@ -57,8 +58,28 @@ def parse_args():
     return args
 
 
+# 封装随机数种子函数
+def seed_everything(seed=11):
+    import random as r
+    r.seed(seed)
+    import torch as t
+    np.random.seed(seed)
+    t.manual_seed(seed)
+    t.cuda.manual_seed(seed)
+    t.cuda.manual_seed_all(seed)
+    t.backends.deterministic = True
+    t.backends.benchmark = False
+# 设置Dataloader的种子
+def worker_init_fn(worker_id, rank, seed):
+    worker_seed = rank + seed
+    random.seed(worker_seed)
+    np.random.seed(worker_seed)
+    torch.manual_seed(worker_seed)
+
+
 def main():
     args = parse_args()
+    seed_everything(42)
 
     # Reduce the number of repeated compilations and improve
     # training speed.
